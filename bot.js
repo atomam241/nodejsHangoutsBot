@@ -1,6 +1,10 @@
 var owner = 'Owen' //enter your name here
 
 
+//setup webshot----------------------------------------
+var webshot = require('webshot');
+//Setup ECTOR------------------------------------------not yet
+
 //Setup Cleverbot--------------------------------------
 var Cleverbot = require('cleverbot-node');
 cleverbot = new Cleverbot;
@@ -25,14 +29,14 @@ var client = new Client();
 
 // start a connection to Hangouts
 client.connect(creds).then(function() {
-	var talkback = [0];
+	var talkback = [0,'UgyXKhYKRXvjphIs0254AaABAQ'];
 	//on recieving a chat message
 	client.on('chat_message', function(ev) {
 
 		console.log("talkback=" + talkback);
 
 		//If i didn't send the message
-		if (ev.sender_id.chat_id != ev.self_event_state.user_id.chat_id) {
+		if (ev.sender_id.chat_id != ev.self_event_state.user_id.chat_id /* || ev.sender_id.chat_id != 112931905341988013157*/ ) {
 
 
 			//this is the check for commands & images part
@@ -84,7 +88,7 @@ client.connect(creds).then(function() {
 
 							break;
 
-						case '/lenny': //I stole this from https://github.com/KraXarN/KraxBot/blob/master/kraxbot.js
+						case '/lenny': //I stole this from https://github.com/KraXarN/KraxBot/blob/master/kraxbot.js line 210
 							var lenny = ['( ͡° ͜ʖ ͡°)', 'ᕦ( ͡° ͜ʖ ͡°)ᕤ', '(ง ͠° ͟ل͜ ͡°)ง', 'ヽ༼ຈل͜ຈ༽ﾉ', '( ͡°╭͜ʖ╮͡° )', 'ᕕ༼ຈل͜ຈ༽ᕗ', 'ヽ༼Ὸل͜ຈ༽ﾉ', '¯_(ツ)_/¯', '(∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. * ･', '(◞≼◉ื≽◟ ;益;◞≼◉ื≽◟)', '( ͝° ͜ʖ͡°)つ', 'ヽ( ͡°╭͜ʖ╮͡° )ﾉ', '༼凸 ◉_◔༽凸', 'ヽ༼✿σل͜ σ༽ﾉ', '( ͡⚆ ͜ʖ ͡⚆)', 'ヽ༼⚆ل͜⚆༽ﾉ', '( ͡ _ ͡°)ﾉ⚲', '♫ ┌༼ຈل͜ຈ༽┘ ♪', 'ಠ⌣ಠ', '༼ ಥل͟ಥ ༽ ┬┴┬┴┤', '༼ ಠل͟ಠ༽', 'ᕕ( ͡° ͜ʖ ͡°)ᕗ', '༼ง ͠ຈ ͟ل͜ ͠ຈ༽ง', '|༼ʘ ل͜ ʘ༽|', 'ヽ༼◕ل͜◕༽ﾉ', 'ζ༼Ɵ͆ل͜Ɵ͆༽ᶘ', '(° ͜ʖ°)', 'ヽ༼ ツ ༽ﾉ', '（͡°͜ʖ͡°）', '(╯°□°)╯︵ ┻━┻', '༼ʕっ•ᴥ•ʔっ', '( ＾◡＾)っ✂╰⋃╯', 'ヽ༼ ຈل͜ຈ༼ ຈل͜ຈ༽ຈل͜ຈ ༽ﾉ', '༼ - ل͜ - ༽', 'ヽ° ~͜ʖ~ °ﾉ ', 'ᕙ (° ~͜ʖ~ °) ᕗ', '乁( ◔ ౪◔)ㄏ', '༼ つ ◕_◕ ༽つ', 'ヽ༼ຈل͜ರೃ༽ﾉ', '୧༼ಠ益ರೃ༽୨', '( ﾉ ﾟｰﾟ)ﾉ', 'ヽຈل͜ຈﾉ', 'ヽ(ﾟｰﾟヽ)', 'ヽ༼ຈ益ຈ༽ﾉ', '(☢益☢t)', '༼ᕗຈل͜ຈ༽ᕗ', '╮(╯▽╰)╭', '╮(╯ل͜╰)╭', '༼ つ◕(oo)◕༽つ', '(ι´Д｀)ﾉ', 'ヽ༼◥▶ل͜◀◤༽ﾉ', '[̲̅$̲̅(̲̅ヽ̲̅༼̲̅ຈ̲̅ل͜ຈ̲̅༽̲̅ﾉ̲̅)̲̅$̲̅]', '[̲̅$̲̅(̲̅ ͡◥▶ ͜ʖ ͡◀◤)̲̅$̲̅]', '༼ ͠ຈ ͟ل͜ ͠ຈ༽ง', 'ヽ༼ຈل͜ຈ༽ﾉ☂', '(＾◡＾)っ', '༼☯﹏☯༽', 'ヽ༼ ☭ل͜☭ ༽ﾉ', '♌༼✪ل͜✪༽ᕤ', '(͡◔ ͜ʖ ͡◔)', 'ヽ༼ʘ̚ل͜ʘ̚༽ﾉ', '─=≡Σ((( つ◕ل͜◕)つ', 'ᕕ( ᐛ )ᕗ', '༼ຈل͜ຈ༽>ง', 'ᕙ༼◕ل͜◕༽ᕗ', 'ヽ༼ຈل͜ຈ༽ﾉ︵┻━┻', '୧༼ ͡◉ل͜ ͡◉༽୨ ', '༼ ͡■ل͜ ͡■༽', '(ง⌐□ل͜□)ง', 'Ѱζ༼ᴼل͜ᴼ༽ᶘѰ', 'ヽ༼ຈل͜ຈ༽ง', '( ° ͜ʖ͡°)╭∩╮', 'ɳ༼ຈل͜ຈ༽ɲ', '(~˘▾˘)~', 'ʕ•ᴥ•ʔ', 'ヽຈل͜ﾉ༼ຈ', '(☞ﾟヮﾟ)☞', '୧༼ಠ益ಠ༽୨', '(▀̿̿Ĺ̯̿̿▀̿ ̿)', '(ﾉಠ_ಠ)ﾉ', '└(°ᴥ°)┘', 'つ◕ل͜◕)つ', 'ლ(́◉◞౪◟◉‵ლ)', 'ヽ༼♥ل͜♥༽ﾉ', '༼ ᓄºل͟º ༽ᓄ', '(ง ͠° ͟ل͜ ͡°)ง', 'ヽ༼ຈل͜ຈ༽ﾉ', 'ᕦ༼ຈل͜ຈ༽ᕤ', '┌༼ຈل͜ຈ༽┐', 'ᕙ༼ຈل͜ຈ༽ᕗ', 'ヽ༼>ل͜<༽ﾉ', '( ͡° ͜ʖ ͡°)', 'ヽ༼@ل͜ຈ༽ﾉ', '༼ ºل͟º༼ ºل͟º༽ºل͟º ༽', 'ヽ( ͝° ͜ʖ͡°)ﾉ', '[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]'];
 							var ranlen = Math.floor(Math.random() * lenny.length);
 							client.sendchatmessage(ev.conversation_id.id, [
@@ -116,14 +120,14 @@ client.connect(creds).then(function() {
 							break;
 
 						case '/off':
-							//if (ev.sender_id.chat_id == SOME_ID) {} <-- Wrap that around for permission based cmds
+							//if (ev.sender_id.chat_id == SOME_ID) {} <-- Wrap these around for permission based cmds
 
-							if (talkback.indexOf(ev.conversation_id.id) == -1) {
+							if (talkback.indexOf(ev.conversation_id.id) >= 0) {
 								client.sendchatmessage(ev.conversation_id.id, [
-									[0, "I'll be back."]
+									[0, "I'll will no longer speak and take web shots. until /on"]
 								]);
 
-								talkback.push(ev.conversation_id.id);
+								talkback.splice(talkback.indexOf(ev.conversation_id.id), 1);
 							} else {
 								client.sendchatmessage(ev.conversation_id.id, [
 									[0, "Im already off!"]
@@ -134,12 +138,12 @@ client.connect(creds).then(function() {
 
 						case '/on':
 
-							if (talkback.indexOf(ev.conversation_id.id) > -1) {
+							if (talkback.indexOf(ev.conversation_id.id) == -1) {
 								client.sendchatmessage(ev.conversation_id.id, [
-									[0, "I'm back."]
+									[0, "I will now speak and take web shots. until /off"]
 								]);
 
-								talkback.splice(talkback.indexOf(ev.conversation_id.id), 1);
+								talkback.push(ev.conversation_id.id);
 							} else {
 								client.sendchatmessage(ev.conversation_id.id, [
 									[0, "Im not off!"]
@@ -153,9 +157,60 @@ client.connect(creds).then(function() {
 							]);
 					}
 				}
+				//looking for hellos
+			} 
+			/*else if (ev.chat_message.message_content.segment[0].text.toLowerCase().replace(/[^0-9a-z]/gi, '') == 'hello' || ev.chat_message.message_content.segment[0].text.toLowerCase().replace(/[^0-9a-z]/gi, '') == 'hi' || ev.chat_message.message_content.segment[0].text.toLowerCase().replace(/[^0-9a-z]/gi, '') == 'hey' || ev.chat_message.message_content.segment[0].text.toLowerCase().replace(/[^0-9a-z]/gi, '') == 'sup') {
 
-			} else {
-				if (talkback.indexOf(ev.conversation_id.id) == -1) {
+				var chat = [ev.sender_id.chat_id];
+				client.getentitybyid(chat).then(function(info) {
+
+					client.sendchatmessage(ev.conversation_id.id, [
+						[0, "Hello " + info.entities[0].properties.first_name + "."]
+					]);
+				});
+
+			} */
+			else if (ev.chat_message.message_content.segment[0].text.indexOf('http') != -1) { //its a link
+
+				if (talkback.indexOf(ev.conversation_id.id) >= 0) {
+
+					var msg = ev.chat_message.message_content.segment[0].text;
+					msg = msg.split(" ");
+
+					msg.forEach(function(element, index, array) {
+						if (String(element).indexOf("http") == 0) {
+
+							var url = element.replace(/[^0-9a-z]/gi, '')
+
+							var options = {
+								windowSize: {
+									width: 1920,
+									height: 1080
+								},
+								shotSize: {
+									width: 1920,
+									height: 1080
+								}
+								//, quality: 75
+							};
+							webshot(element, 'webshots/' + url + '.png', options, function(err) {
+
+								console.log('webshots/' + url + '.png');
+								client.uploadimage('webshots/' + url + '.png').then(function(id) {
+									console.log(id);
+									client.sendchatmessage(ev.conversation_id.id,
+										null,
+										id);
+								});
+							});
+
+						}
+					});
+
+				}
+
+			} else { //cleverbot
+				if (talkback.indexOf(ev.conversation_id.id) >= 0) {
 
 					client.settyping(ev.conversation_id.id, Client.TypingStatus.TYPING); //start the bot typing
 					// this alerts for debug purposes
