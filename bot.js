@@ -3,12 +3,11 @@ var owner = 'Owen' //enter your name here
 
 //setup webshot----------------------------------------
 var webshot = require('webshot');
-//Setup ECTOR------------------------------------------not yet
-
-//Setup Cleverbot--------------------------------------
-var Cleverbot = require('cleverbot-node');
-cleverbot = new Cleverbot;
-//setup Urban------------------------------------------
+//Setup ECTOR------------------------------------------
+var Ector = require('ector');
+var ector = new Ector();
+ector.setName("OwenBot")
+	//setup Urban------------------------------------------
 var urban = require('urban');
 //Start setting up Hangouts----------------------------
 var Client = require('hangupsjs');
@@ -29,7 +28,7 @@ var client = new Client();
 
 // start a connection to Hangouts
 client.connect(creds).then(function() {
-	var talkback = [0,'UgyXKhYKRXvjphIs0254AaABAQ'];
+	var talkback = [0, 'UgyXKhYKRXvjphIs0254AaABAQ'];
 	//on recieving a chat message
 	client.on('chat_message', function(ev) {
 
@@ -158,7 +157,7 @@ client.connect(creds).then(function() {
 					}
 				}
 				//looking for hellos
-			} 
+			}
 			/*else if (ev.chat_message.message_content.segment[0].text.toLowerCase().replace(/[^0-9a-z]/gi, '') == 'hello' || ev.chat_message.message_content.segment[0].text.toLowerCase().replace(/[^0-9a-z]/gi, '') == 'hi' || ev.chat_message.message_content.segment[0].text.toLowerCase().replace(/[^0-9a-z]/gi, '') == 'hey' || ev.chat_message.message_content.segment[0].text.toLowerCase().replace(/[^0-9a-z]/gi, '') == 'sup') {
 
 				var chat = [ev.sender_id.chat_id];
@@ -209,26 +208,35 @@ client.connect(creds).then(function() {
 
 				}
 
-			} else { //cleverbot
+			} else { //conversation
 				if (talkback.indexOf(ev.conversation_id.id) >= 0) {
+
+
+
+
 
 					client.settyping(ev.conversation_id.id, Client.TypingStatus.TYPING); //start the bot typing
 					// this alerts for debug purposes
 					console.log('Msg is: ' + ev.chat_message.message_content.segment[0].text);
+
+
 					//console.log('Sender is: ' + ev.sender_id.chat_id);
 					//console.log('I am: ' + ev.self_event_state.user_id.chat_id + '\n');
 
-					//initalize the clev session & ask
-					Cleverbot.prepare(function() {
-						cleverbot.write(ev.chat_message.message_content.segment[0].text, function(response) {
+					//initalize ector and respond
 
-							//send response
-							client.sendchatmessage(ev.conversation_id.id, [
-								[0, response.message]
-							]);
-							client.settyping(ev.conversation_id.id, Client.TypingStatus.STOPPED); //the bot is 'stopped' typing
+					var chat = [ev.sender_id.chat_id];
+					client.getentitybyid(chat).then(function(info) {
 
-						});
+						ector.setUser(info.entities[0].properties.first_name)
+						ector.addEntry(ev.chat_message.message_content.segment[0].text);
+						var response = ector.generateResponse();
+
+						client.sendchatmessage(ev.conversation_id.id, [
+							[0, response.sentence]
+						]);
+						
+						client.settyping(ev.conversation_id.id, Client.TypingStatus.STOPPED); //the bot is 'stopped' typing
 					});
 				}
 			}
