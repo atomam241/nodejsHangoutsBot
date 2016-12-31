@@ -1,7 +1,7 @@
 # nodejsHangoutsBot
 A Node Js powered bot for hangouts, replies with cleverbot responses.
 
-Im a high school student, and this is my first (real) use of GitHub. Also you should know this project was inspired by [KraxBot](https://github.com/KraXarN/KraxBot), and is really just a compilation of different NodeJs modules and some code, a lot of the work was already done for me by the developers of [NodeJs](https://nodejs.org), and the modules [hangupsjs](https://github.com/algesten/hangupsjs), [cleverbot-node](https://www.npmjs.com/package/cleverbot-node), and [urban](https://www.npmjs.com/package/urban). They are the real heroes here.
+Im a high school student, and this is my first (real) use of GitHub. Also you should know this project was inspired by [KraxBot](https://github.com/KraXarN/KraxBot), thanks to the developers of [NodeJs](https://nodejs.org), and the modules [hangupsjs](https://github.com/algesten/hangupsjs), [ECTOR](https://www.npmjs.com/package/ector), [urban](https://www.npmjs.com/package/urban), and [webshot](https://www.npmjs.com/package/webshot).
 
 ### Disclaimer
 - I am not responsible for what the bot says (it can get sassy).
@@ -11,13 +11,14 @@ Im a high school student, and this is my first (real) use of GitHub. Also you sh
 
 ### Setup
 
-This is pretty easy, you just enter you name in the var owner on line 1. When you run it first you have to "fire up [your] browser and get the requested token" ([hangupsjs](https://github.com/algesten/hangupsjs)).
+This is pretty easy, you just enter you name in the var owner on line 1. When you run it first you have to "fire up [your] browser and get the requested token" ([hangupsjs](https://github.com/algesten/hangupsjs)). <- Actually see [this](https://www.youtube.com/watch?v=hlDhp-eNLMU).
 
 You should also make sure you have the NodeJs modules:
 
 - [hangupsjs](https://github.com/algesten/hangupsjs)
-- [cleverbot-node](https://www.npmjs.com/package/cleverbot-node)
+- [ECTOR](https://www.npmjs.com/package/ector)
 - [urban](https://www.npmjs.com/package/urban)
+- [webshot](https://www.npmjs.com/package/webshot)
 
 You launch the bot.js like any other nodejs script
  
